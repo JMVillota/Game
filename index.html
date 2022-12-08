@@ -186,7 +186,8 @@
         var cameraPosGame = 160;
         var cameraPosGameOver = 260;
         var monsterAcceleration = 0.004;
-        var malusClearColor = 0xb44b39;
+        var malusClearColor = 0xF90000;
+        var uplevelColor = 0x087FE8;
         var malusClearAlpha = 0;
         var audio = new Audio('src/audio2.mp3');
         var audioBonus = new Audio('src/bonus.mp3');
@@ -1707,6 +1708,13 @@
             if (speed >= maxSpeed) return;
             level++;
             speed += 2;
+
+            TweenMax.from(this, .5, {
+                malusClearAlpha: .5,
+                onUpdate: function() {
+                    renderer.setClearColor(uplevelColor, malusClearAlpha);
+                }
+            });
         }
 
         function loop() {
