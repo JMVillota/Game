@@ -15,7 +15,7 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background-color: #3a3a3a;
+            background-color: #E7C779;
             overflow: hidden;
         }
         
@@ -26,7 +26,7 @@
             text-transform: uppercase;
             font-size: 120px;
             text-align: center;
-            color: #ffa873;
+            color: #0f0f0e;
             opacity: 0;
             left: 50%;
             top: 50%;
@@ -60,7 +60,7 @@
             position: relative;
             font-family: "Voltaire", sans-serif;
             text-transform: uppercase;
-            color: #ffa873;
+            color: #1b1a19;
             font-size: 12px;
             letter-spacing: 2px;
             text-align: center;
@@ -70,7 +70,7 @@
         #distValue {
             position: relative;
             text-transform: uppercase;
-            color: #dc5f45;
+            color: #000000;
             font-size: 40px;
             font-family: "Voltaire";
             text-align: center;
@@ -83,7 +83,7 @@
             bottom: 0;
             margin-bottom: 20px;
             font-family: "Voltaire", sans-serif;
-            color: #544027;
+            color: #2f0505;
             font-size: 12px;
             letter-spacing: 0.5px;
             text-transform: uppercase;
@@ -99,7 +99,7 @@
         }
         
         #credits a:hover {
-            color: #dc5f45;
+            color: #0d0c0c;
         }
         
         #instructions {
@@ -109,7 +109,7 @@
             margin: auto;
             margin-bottom: 50px;
             font-family: "Voltaire", sans-serif;
-            color: #dc5f45;
+            color: #1c0703;
             font-size: 16px;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -121,7 +121,7 @@
         }
         
         .lightInstructions {
-            color: #5f9042;
+            color: #f10b0b;
         }
     </style>
 
@@ -216,6 +216,30 @@
             shading: THREE.FlatShading
         });
 
+        var Cafe = new THREE.MeshPhongMaterial({
+            color: 0x391b00,
+            shading: THREE.FlatShading
+        });
+        var CafeClaro = new THREE.MeshPhongMaterial({
+            color: 0x763600,
+            shading: THREE.FlatShading
+        });
+
+
+        var blanco = new THREE.MeshPhongMaterial({
+            color: 0xABB1B9,
+            shading: THREE.FlatShading
+        });
+
+        var Amarillo = new THREE.MeshPhongMaterial({
+            color: 0xD9C46D,
+            shading: THREE.FlatShading
+        });
+
+        var Azul = new THREE.MeshPhongMaterial({
+            color: 0x467DC2,
+            shading: THREE.FlatShading
+        });
 
         var brownMat = new THREE.MeshPhongMaterial({
             color: 0xb44b39,
@@ -359,7 +383,7 @@
         function createFloor() {
 
             floorShadow = new THREE.Mesh(new THREE.SphereGeometry(floorRadius, 50, 50), new THREE.MeshPhongMaterial({
-                color: 0x7abf8e,
+                color: 0x35AD40,
                 specular: 0x000000,
                 shininess: 1,
                 transparent: true,
@@ -370,7 +394,7 @@
             floorShadow.receiveShadow = true;
 
             floorGrass = new THREE.Mesh(new THREE.SphereGeometry(floorRadius - .5, 50, 50), new THREE.MeshBasicMaterial({
-                color: 0x7abf8e
+                color: 0x35AD40
             }));
 
             //floor.rotation.x = -Math.PI / 2;
@@ -394,22 +418,25 @@
 
             var torsoGeom = new THREE.CubeGeometry(7, 7, 10, 1);
 
-            this.torso = new THREE.Mesh(torsoGeom, brownMat);
+            //torso
+            this.torso = new THREE.Mesh(torsoGeom, blackMat);
             this.torso.position.z = 0;
             this.torso.position.y = 7;
             this.torso.castShadow = true;
             this.body.add(this.torso);
 
+            //piernas
             var pantsGeom = new THREE.CubeGeometry(9, 9, 5, 1);
-            this.pants = new THREE.Mesh(pantsGeom, whiteMat);
+            this.pants = new THREE.Mesh(pantsGeom, Azul);
             this.pants.position.z = -3;
             this.pants.position.y = 0;
             this.pants.castShadow = true;
             this.torso.add(this.pants);
 
+            //cola
             var tailGeom = new THREE.CubeGeometry(3, 3, 3, 1);
             tailGeom.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0, -2));
-            this.tail = new THREE.Mesh(tailGeom, lightBrownMat);
+            this.tail = new THREE.Mesh(tailGeom, blanco);
             this.tail.position.z = -4;
             this.tail.position.y = 5;
             this.tail.castShadow = true;
@@ -419,15 +446,17 @@
 
             var headGeom = new THREE.CubeGeometry(10, 10, 13, 1);
 
+            //Cabeza
             headGeom.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0, 7.5));
-            this.head = new THREE.Mesh(headGeom, brownMat);
+            this.head = new THREE.Mesh(headGeom, blanco);
             this.head.position.z = 2;
             this.head.position.y = 11;
             this.head.castShadow = true;
             this.body.add(this.head);
 
+            //cachetes
             var cheekGeom = new THREE.CubeGeometry(1, 4, 4, 1);
-            this.cheekR = new THREE.Mesh(cheekGeom, pinkMat);
+            this.cheekR = new THREE.Mesh(cheekGeom, blanco);
             this.cheekR.position.x = -5;
             this.cheekR.position.z = 7;
             this.cheekR.position.y = -2.5;
@@ -438,26 +467,27 @@
             this.cheekL.position.x = -this.cheekR.position.x;
             this.head.add(this.cheekL);
 
-
+            //Nariz
             var noseGeom = new THREE.CubeGeometry(6, 6, 3, 1);
-            this.nose = new THREE.Mesh(noseGeom, lightBrownMat);
+            this.nose = new THREE.Mesh(noseGeom, blanco);
             this.nose.position.z = 13.5;
             this.nose.position.y = 2.6;
             this.nose.castShadow = true;
             this.head.add(this.nose);
 
+            //boca
             var mouthGeom = new THREE.CubeGeometry(4, 2, 4, 1);
             mouthGeom.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0, 3));
             mouthGeom.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI / 12));
-            this.mouth = new THREE.Mesh(mouthGeom, brownMat);
+            this.mouth = new THREE.Mesh(mouthGeom, pinkMat);
             this.mouth.position.z = 8;
             this.mouth.position.y = -4;
             this.mouth.castShadow = true;
             this.head.add(this.mouth);
 
-
+            //Patas delanteras
             var pawFGeom = new THREE.CubeGeometry(3, 3, 3, 1);
-            this.pawFR = new THREE.Mesh(pawFGeom, lightBrownMat);
+            this.pawFR = new THREE.Mesh(pawFGeom, blanco);
             this.pawFR.position.x = -2;
             this.pawFR.position.z = 6;
             this.pawFR.position.y = 1.5;
@@ -469,8 +499,9 @@
             this.pawFL.castShadow = true;
             this.body.add(this.pawFL);
 
+            //Patas Traseras
             var pawBGeom = new THREE.CubeGeometry(3, 3, 6, 1);
-            this.pawBL = new THREE.Mesh(pawBGeom, lightBrownMat);
+            this.pawBL = new THREE.Mesh(pawBGeom, blanco);
             this.pawBL.position.y = 1.5;
             this.pawBL.position.z = 0;
             this.pawBL.position.x = 5;
@@ -496,7 +527,8 @@
             earGeom.vertices[3].z += .5;
             earGeom.applyMatrix(new THREE.Matrix4().makeTranslation(0, 9, 0));
 
-            this.earL = new THREE.Mesh(earGeom, brownMat);
+            //Orejas
+            this.earL = new THREE.Mesh(earGeom, blanco);
             this.earL.position.x = 2;
             this.earL.position.z = 2.5;
             this.earL.position.y = 5;
@@ -1116,6 +1148,14 @@
                 y: 1,
                 ease: ease
             });
+
+            var irisGeom = new THREE.CubeGeometry(.5, 1, 1);
+            this.iris = new THREE.Mesh(irisGeom, blanco);
+            this.iris.position.x = .5;
+            this.iris.position.y = .8;
+            this.iris.position.z = .8;
+            this.eyeL.add(this.iris);
+
         };
 
         Monster.prototype.nod = function() {
@@ -1260,7 +1300,7 @@
             this.status = "ready";
             this.mesh = new THREE.Group();
             var bodyGeom = new THREE.CubeGeometry(6, 6, 6, 1);
-            this.body = new THREE.Mesh(bodyGeom, blackMat);
+            this.body = new THREE.Mesh(bodyGeom, Amarillo);
 
             var headGeom = new THREE.CubeGeometry(5, 5, 7, 1);
             this.head = new THREE.Mesh(headGeom, lightBrownMat);
@@ -1762,8 +1802,8 @@
             var truncHeight = 50 + Math.random() * 150;
             var topRadius = 1 + Math.random() * 5;
             var bottomRadius = 5 + Math.random() * 5;
-            var mats = [blackMat, brownMat, pinkMat, whiteMat, greenMat, lightBrownMat, pinkMat];
-            var matTrunc = blackMat; //mats[Math.floor(Math.random()*mats.length)];
+            var mats = [Cafe, brownMat, pinkMat, whiteMat, greenMat, lightBrownMat, pinkMat];
+            var matTrunc = Cafe; //mats[Math.floor(Math.random()*mats.length)];
             var nhSegments = 3; //Math.ceil(2 + Math.random()*6);
             var nvSegments = 3; //Math.ceil(2 + Math.random()*6);
             var geom = new THREE.CylinderGeometry(topRadius, bottomRadius, truncHeight, nhSegments, nvSegments);
@@ -1804,7 +1844,7 @@
 
                     var branchGeometry = new THREE.CylinderGeometry(thickness / 2, thickness, h, 3, 1);
                     branchGeometry.applyMatrix(new THREE.Matrix4().makeTranslation(0, h / 2, 0));
-                    var branch = new THREE.Mesh(branchGeometry, matTrunc);
+                    var branch = new THREE.Mesh(branchGeometry, CafeClaro);
                     branch.position.x = v.x;
                     branch.position.y = v.y;
                     branch.position.z = v.z;
